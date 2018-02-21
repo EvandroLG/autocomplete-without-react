@@ -1,3 +1,8 @@
+* {
+  font-size: 18px;
+  font-family: Verdana, Arial, sans-serif;
+}
+
 .main {
   width: 90%;
   margin: 5px auto;
