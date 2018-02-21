@@ -6,6 +6,7 @@ const doc = document;
 class Autocomplete {
   constructor(root) {
     this.search = new Search();
+    this.memoize = {};
 
     this.elements = {};
     this.elements.root = root;
@@ -37,12 +38,15 @@ class Autocomplete {
     this._cleanList();
   }
 
-  _createItem(value) {
+  _getItem(value) {
     let li = doc.createElement('li');
     li.innerText = value;
 
-    this.elements.list.appendChild(li);
+    return li;
+  }
 
+  _createItem(li) {
+    this.elements.list.appendChild(li);
     li.addEventListener('click', this._onLiClick.bind(this));
   }
 
@@ -52,8 +56,17 @@ class Autocomplete {
     const value = e.target.value;
     const that = this;
 
-    this.search.getItems(value).forEach((item) => {
-      that._createItem(item);
+    if (value && !this.memoize[value]) {
+      console.log('again?');
+      this.memoize[value] = [];
+
+      this.search.getItems(value).forEach((item) => {
+        that.memoize[value].push(that._getItem(item));
+      });
+    }
+
+    (this.memoize[value] || []).forEach((li) => {
+      that._createItem(li);
     });
   }
 
