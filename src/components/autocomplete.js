@@ -57,7 +57,6 @@ class Autocomplete {
     const that = this;
 
     if (value && !this.memoize[value]) {
-      console.log('again?');
       this.memoize[value] = [];
 
       this.search.getItems(value).forEach((item) => {
