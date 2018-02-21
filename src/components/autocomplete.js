@@ -78,6 +78,7 @@ class Autocomplete {
   render() {
     this.elements.input = this._getInputElement();
     this.elements.root.appendChild(this.elements.input);
+    this.elements.input.focus();
 
     this.elements.list = this._getListElement();
     this.elements.root.appendChild(this.elements.list);
