@@ -26,15 +26,24 @@ class Autocomplete {
     return list;
   }
 
+  _cleanList() {
+    this.elements.list.innerHTML = '';
+  }
+
+  _onLiClick(e) {
+    e.preventDefault();
+
+    this.elements.input.value = e.target.innerText;
+    this._cleanList();
+  }
+
   _createItem(value) {
     let li = doc.createElement('li');
     li.innerText = value;
 
     this.elements.list.appendChild(li);
-  }
 
-  _cleanList() {
-    this.elements.list.innerHTML = '';
+    li.addEventListener('click', this._onLiClick.bind(this));
   }
 
   _onInputKeyUp(e) {
@@ -50,7 +59,7 @@ class Autocomplete {
 
   _events() {
     this.elements.input.addEventListener('keyup',
-      debounce(this._onInputKeyUp.bind(this), 300));
+      debounce(this._onInputKeyUp.bind(this), 300), false);
   }
 
   render() {
